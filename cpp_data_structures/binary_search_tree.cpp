@@ -1,4 +1,6 @@
 #include <iostream>
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -35,6 +37,7 @@ class BinarySearchTree {
         T min();
         T max();
         int remove(T value); // Returns 1 if value found and removed, 0 if not
+        TreeNode<T>* get_root();
 
         BinarySearchTree() {
             root = nullptr;
@@ -137,6 +140,39 @@ int BinarySearchTree<T>::remove(T value) {
     return 1;
 }
 
+template<class T>
+TreeNode<T>* BinarySearchTree<T>::get_root() {
+    return root;
+}
+
+template<class T>
+void breadth_first_search(TreeNode<T>* root) {
+    queue<TreeNode<T>*> q;
+    TreeNode<T>* current = root;
+
+    while (current) {
+        cout << current->key << endl;
+        if (current->left) q.push(current->left);
+        if (current->right) q.push(current->right);
+        (q.empty()) ? current = nullptr : current = q.front();
+        q.pop();
+    }
+}
+
+template<class T>
+void depth_first_search(TreeNode<T>* root) {
+    stack<TreeNode<T>*> s;
+    TreeNode<T>* current = root;
+
+    while (current) {
+        cout << current->key << endl;
+        if (current->right) s.push(current->right);
+        if (current->left) s.push(current->left);
+        current = (s.empty()) ? nullptr : current = s.top();
+        s.pop();
+    }
+}
+
 int main() {
     BinarySearchTree<int> tree;
     tree.insert(5);
@@ -147,19 +183,22 @@ int main() {
     tree.insert(15);
     tree.insert(17);
     tree.insert(2);
-
-    tree.remove(2);
-    cout << tree.min() << endl;
-    tree.remove(16);
-    tree.remove(6);
-    cout << tree.search(16) << endl;
-    cout << tree.search(6) << endl;
-    cout << tree.search(5) << endl;
-    cout << tree.search(4) << endl;
-    cout << tree.search(24) << endl;
-    cout << tree.search(15) << endl;
-    cout << tree.search(17) << endl;
-    cout << tree.max() << endl;
-    cout << tree.min() << endl;
+    tree.insert(3);
+    tree.insert(1);
+    breadth_first_search(tree.get_root());
+    depth_first_search(tree.get_root());
+    //tree.remove(2);
+    //cout << tree.min() << endl;
+    //tree.remove(16);
+    //tree.remove(6);
+    //cout << tree.search(16) << endl;
+    //cout << tree.search(6) << endl;
+    //cout << tree.search(5) << endl;
+    //cout << tree.search(4) << endl;
+    //cout << tree.search(24) << endl;
+    //cout << tree.search(15) << endl;
+    //cout << tree.search(17) << endl;
+    //cout << tree.max() << endl;
+    //cout << tree.min() << endl;
 }
 

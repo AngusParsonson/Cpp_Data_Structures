@@ -17,6 +17,7 @@ class LinkedList {
         size_t length;
 
     public:
+        LinkedList();
         LinkedList(size_t n, T *values);
         void pushBack(T value); // O(1)
         void pushForward(T value); // O(1)
@@ -30,6 +31,13 @@ class LinkedList {
         Node<T>* getTail();
         size_t size();
 };
+
+template<class T>
+LinkedList<T>::LinkedList() {
+    head = nullptr;
+    tail = nullptr;
+    length = 0;
+}
 
 template<class T>
 LinkedList<T>::LinkedList(size_t n, T values[]) {
