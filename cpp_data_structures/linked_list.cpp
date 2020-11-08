@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ class LinkedList {
 
     public:
         LinkedList();
-        LinkedList(size_t n, T *values);
+        LinkedList(size_t n, T values[]);
         void pushBack(T value); // O(1)
         void pushForward(T value); // O(1)
 
@@ -27,6 +28,9 @@ class LinkedList {
 
         T decapitate(); // Remove head and return value
         T dock(); // Remove tail and return value
+        T getFromEnd(int k);
+        void removeDuplicates();
+        void print();
         Node<T>* getHead();
         Node<T>* getTail();
         size_t size();
@@ -59,8 +63,14 @@ void LinkedList<T>::pushBack(T value) {
     Node<T>* n = new Node<T>;
     n->value = value;
 
-    tail->next = n;
-    tail = tail->next;
+    if (!head) {
+        head = n;
+        tail = head;
+    }
+    else {
+        tail->next = n;
+        tail = tail->next;
+    }
     length++;
 }
 
@@ -68,7 +78,13 @@ template<class T>
 void LinkedList<T>::pushForward(T value) {
     Node<T>* n = new Node<T>;
     n->value = value;
-    n->next = head;
+
+    if (!head) {
+        head = n;
+        tail = head;
+    }
+    else
+        n->next = head;
 
     head = n;
     length++;
@@ -108,22 +124,59 @@ size_t LinkedList<T>::size() {
     return length;
 }
 
+template<class T>
+void LinkedList<T>::removeDuplicates() {
+    unordered_set<T> set;
+    Node<T> *current = head, *prev = head;
+
+    while (current) {
+        if (set.count(current->value)) 
+            prev->next = current->next; 
+        
+        else {
+            set.insert(current->value);
+            prev = current;
+        }
+
+        current = current->next;
+    }
+}
+
+template<class T>
+T LinkedList<T>::getFromEnd(int k) {
+    Node<T> *fst = head, *snd = head;
+
+    for (int i = 0; i <= k; i++)
+        fst = fst->next;
+
+    while (fst) {
+        snd = snd->next;
+        fst = fst->next;
+    }
+
+    return snd->value;
+}
+
+template<class T>
+void LinkedList<T>::print() {
+    Node<T>* current = head;
+
+    while (current) {
+        cout << current->value << " -> ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
 int main() {
-    long arr[] = {1,2,3,4};
-    LinkedList<long> list(4, arr);
+    long arr[] = {1,2,2,3,4,5,1,1,5,1,1,2,7};
+    LinkedList<long> list(13, arr);
     list.pushBack(7);
     list.pushForward(8);
     list.insert(23, 2);
-    int *q = new int(5);
-    int *swap = p;
-    p = q;
-    q = swap;
-    cout << "q: "<< *q << endl;
-    cout << "p: " << *p << endl;
-
-    cout << list.getHead()->value << endl;
-    cout << list.getHead()->next->value << endl;
-    cout << list.getHead()->next->next->value << endl;
-    cout << list.getTail()->value << endl;
-    cout << list.size() << endl;
+    list.print();
+    list.removeDuplicates();
+    list.print();
+    cout << list.getFromEnd(3) << endl;
+    cout << list.getFromEnd(5) << endl; 
 }

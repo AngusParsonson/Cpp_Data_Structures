@@ -1,31 +1,3 @@
-#include <iostream>
-#include "tree_node.h"
-
-template<class T>
-class binary_search_tree {
-    private:
-        TreeNode<T>* root;
-
-    public:
-        void insert(T value);
-
-        // Search takes an optional pointer which (if not null when passed)
-        // will be pointing to the found node, alternative is to pass a pointer
-        // by reference using *& but this doesn't allow for an optional
-        // nullptr so the function would have to be overloaded and written
-        // again
-        bool search(T value, TreeNode<T>** node=nullptr);
-
-        T min();
-        T max();
-        int remove(T value); // Returns 1 if value found and removed, 0 if not
-        TreeNode<T>* get_root();
-
-        binary_search_tree() {
-            root = nullptr;
-        }
-};
-
 template<class T>
 void binary_search_tree<T>::insert(T value) {
     if (!root) {
@@ -126,31 +98,3 @@ template<class T>
 TreeNode<T>* binary_search_tree<T>::get_root() {
     return root;
 }
-
-int main() {
-    binary_search_tree<int> tree;
-    tree.insert(5);
-    tree.insert(6);
-    tree.insert(4);
-    tree.insert(24);
-    tree.insert(16);
-    tree.insert(15);
-    tree.insert(17);
-    tree.insert(2);
-    tree.insert(3);
-    tree.insert(1);
-    tree.remove(2);
-    std::cout << tree.min() << std::endl;
-    tree.remove(16);
-    tree.remove(6);
-    std::cout << tree.search(16) << std::endl;
-    std::cout << tree.search(6) << std::endl;
-    std::cout << tree.search(5) << std::endl;
-    std::cout << tree.search(4) << std::endl;
-    std::cout << tree.search(24) << std::endl;
-    std::cout << tree.search(15) << std::endl;
-    std::cout << tree.search(17) << std::endl;
-    std::cout << tree.max() << std::endl;
-    std::cout << tree.min() << std::endl;
-}
-
