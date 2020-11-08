@@ -34,6 +34,33 @@ void depth_first_search(TreeNode<T>* root) {
     }
 }
 
+template<class T>
+void in_order_traversal(TreeNode<T>* root) {
+    if (root) {
+        in_order_traversal(root->left);
+        cout << root->key << endl;
+        in_order_traversal(root->right);
+    }
+}
+
+template<class T>
+void pre_order_traversal(TreeNode<T>* root) {
+    if (root) {
+        cout << root->key << endl;
+        pre_order_traversal(root->left);
+        pre_order_traversal(root->right);
+    }
+}
+
+template<class T>
+void post_order_traversal(TreeNode<T>* root) {
+    if (root) {
+        post_order_traversal(root->left);
+        post_order_traversal(root->right);
+        cout << root->key << endl;
+    }
+}
+
 int main() {
     binary_search_tree<int> tree;
     tree.insert(5);
@@ -46,6 +73,9 @@ int main() {
     tree.insert(2);
     tree.insert(3);
     tree.insert(1);
-    breadth_first_search(tree.get_root());
-    depth_first_search(tree.get_root());
+    //breadth_first_search(tree.get_root());
+    //depth_first_search(tree.get_root());
+    in_order_traversal(tree.get_root());
+    pre_order_traversal(tree.get_root());
+    post_order_traversal(tree.get_root());
 }
