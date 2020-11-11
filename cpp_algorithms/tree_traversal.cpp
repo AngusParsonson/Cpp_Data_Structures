@@ -75,7 +75,7 @@ int main() {
     tree.insert(1);
     //breadth_first_search(tree.get_root());
     //depth_first_search(tree.get_root());
-    in_order_traversal(tree.get_root());
-    pre_order_traversal(tree.get_root());
+    //in_order_traversal(tree.get_root());
+    //pre_order_traversal(tree.get_root());
     post_order_traversal(tree.get_root());
 }
